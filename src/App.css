@@ -14,8 +14,17 @@
   width: 300px;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: #fff;
+}
+
 .App {
   display: flex;
+  background-color: #15202b;
   height: 100%;
   align-items: center;
   justify-content: center;

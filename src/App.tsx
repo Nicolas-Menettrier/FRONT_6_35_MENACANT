@@ -4,7 +4,6 @@ import Register from "./components/RegistrationForm/RegistrationForm";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import { Route, Switch } from "react-router-dom";
 
-import "antd/dist/antd.css";
 import "./App.css";
 
 const App: React.FC = () => {
