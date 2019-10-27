@@ -1,0 +1,30 @@
+.login-form {
+  max-width: 300px;
+}
+
+.login-form-forgot {
+  float: right;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
+.form-register {
+  width: 300px;
+}
+
+.App {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+body {
+  min-height: 100vh;
+}
+
+#root {
+  height: 100%;
+}
