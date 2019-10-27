@@ -14,8 +14,9 @@ module.exports = override(
       "@component-background": "#10171E",
       "@border-color-base": "#38444D",
       "@border-color-split": "#38444D",
-      "@input-placeholder-color": "##8899A6",
-      "@heading-color": "#fff"
+      "@input-placeholder-color": "#8899A6",
+      "@heading-color": "#8196a7",
+      "@icon-color": "#8196a7"
     }
   })
 );

@@ -29,19 +29,14 @@ const NormalLoginForm: React.FC<FormProps> = ({ form, history }) => {
               message: "Please insert a valid email"
             }
           ]
-        })(
-          <Input
-            prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
-            placeholder="Email"
-          />
-        )}
+        })(<Input prefix={<Icon type="user" />} placeholder="Email" />)}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator("password", {
           rules: [{ required: true, message: "Please input your Password!" }]
         })(
           <Input.Password
-            prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+            prefix={<Icon type="lock" />}
             type="password"
             placeholder="Password"
           />

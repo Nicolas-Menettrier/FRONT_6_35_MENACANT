@@ -25,3 +25,11 @@ export interface FormProps extends RouteComponentProps {
 export interface RegistrationProps extends RouteComponentProps {
   form: any;
 }
+
+export interface PostProps {
+  likes: number;
+  comments: number;
+  contents: string;
+  author: string;
+  date: any;
+}
