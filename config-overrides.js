@@ -11,12 +11,16 @@ module.exports = override(
     modifyVars: {
       "@primary-color": "#1DA57A",
       "@text-color": "#fff",
-      "@component-background": "#10171E",
+      "@component-background": "#15202B",
+      "@body-background": "#15202B",
       "@border-color-base": "#38444D",
       "@border-color-split": "#38444D",
       "@input-placeholder-color": "#8899A6",
       "@heading-color": "#8196a7",
-      "@icon-color": "#8196a7"
+      "@btn-border-radius-base": "9999px",
+      "@btn-border-radius-sm": "9999px",
+      "@layout-body-background": "#15202B",
+      "@layout-header-background": "#15202B"
     }
   })
 );

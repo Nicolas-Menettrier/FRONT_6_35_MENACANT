@@ -8,24 +8,24 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   isAuthenticated,
   isLoading,
   ...rest
-}) => (
+}: PrivateRouteProps) => (
   <Route
     {...rest}
-    render={props => {
+    render={(props): JSX.Element => {
       if (isLoading) {
         return <p>Loading...</p>;
-      } else if (isAuthenticated) {
-        return <Component {...props} />;
-      } else {
-        return (
-          <Redirect
-            to={{
-              pathname: "/",
-              state: { from: props.location }
-            }}
-          />
-        );
       }
+      if (isAuthenticated) {
+        return <Component {...props} />;
+      }
+      return (
+        <Redirect
+          to={{
+            pathname: "/",
+            state: { from: props.location }
+          }}
+        />
+      );
     }}
   />
 );

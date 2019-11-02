@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { Form, Input, Tooltip, Icon, Button } from "antd";
 
@@ -8,7 +9,7 @@ const RegistrationForm: React.FC<RegistrationProps> = ({
 }: RegistrationProps) => {
   const { getFieldDecorator } = form;
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     form.validateFieldsAndScroll((err: any, values: any) => {
       if (!err) {
@@ -17,7 +18,11 @@ const RegistrationForm: React.FC<RegistrationProps> = ({
     });
   };
 
-  const compareToFirstPassword = (rule: any, value: any, callback: any) => {
+  const compareToFirstPassword = (
+    rule: any,
+    value: any,
+    callback: any
+  ): void => {
     if (value && value !== form.getFieldValue("password")) {
       callback("Two passwords that you enter is inconsistent!");
     } else {
@@ -25,7 +30,11 @@ const RegistrationForm: React.FC<RegistrationProps> = ({
     }
   };
 
-  const validateToNextPassword = (rule: any, value: any, callback: any) => {
+  const validateToNextPassword = (
+    rule: any,
+    value: any,
+    callback: any
+  ): void => {
     if (value) {
       form.validateFields(["confirm"], { force: true });
     }
@@ -75,14 +84,14 @@ const RegistrationForm: React.FC<RegistrationProps> = ({
         })(<Input.Password />)}
       </Form.Item>
       <Form.Item
-        label={
+        label={(
           <span>
             Nickname&nbsp;
             <Tooltip title="What do you want others to call you?">
               <Icon type="question-circle-o" />
             </Tooltip>
           </span>
-        }
+        )}
       >
         {getFieldDecorator("nickname", {
           rules: [

@@ -1,12 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from "react";
 import { Form, Icon, Input, Button, Checkbox } from "antd";
 
 import { FormProps } from "../../types/types.6_35";
 
-const NormalLoginForm: React.FC<FormProps> = ({ form, history }) => {
+const NormalLoginForm: React.FC<FormProps> = ({ form, history }: FormProps) => {
   const { getFieldDecorator } = form;
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     form.validateFields((err: Error, values: any) => {
       if (!err) {
@@ -49,14 +54,14 @@ const NormalLoginForm: React.FC<FormProps> = ({ form, history }) => {
         })(<Checkbox>Remember me</Checkbox>)}
         <a
           className="login-form-forgot"
-          onClick={() => history.push("/forgotPassword")}
+          onClick={(): void => history.push("/forgotPassword")}
         >
           Forgot password
         </a>
         <Button type="primary" htmlType="submit" className="login-form-button">
           Log in
         </Button>
-        Or <a onClick={() => history.push("/register")}>register now!</a>
+        Or <a onClick={(): void => history.push("/register")}>register now!</a>
       </Form.Item>
     </Form>
   );
