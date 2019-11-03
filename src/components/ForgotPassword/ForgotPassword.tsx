@@ -24,12 +24,7 @@ const ForgotPassword: React.FC = ({ form }: any) => {
               message: "Please input a valid email"
             }
           ]
-        })(
-          <Input
-            prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
-            placeholder="Valid email"
-          />
-        )}
+        })(<Input prefix={<Icon type="user" />} placeholder="Valid email" />)}
       </Form.Item>
 
       <Button type="primary" htmlType="submit" className="login-form-button">
