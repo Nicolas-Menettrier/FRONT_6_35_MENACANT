@@ -27,7 +27,8 @@
     "prettier/prettier": "error",
     "react/jsx-filename-extension": 0,
     "react/prop-types": [2, { "ignore": ["children"] }],
-    "react/jsx-props-no-spreading": 0
+    "react/jsx-props-no-spreading": 0,
+    "@typescript-eslint/no-explicit-any": 0
   },
   "settings": {
     "import/resolver": {

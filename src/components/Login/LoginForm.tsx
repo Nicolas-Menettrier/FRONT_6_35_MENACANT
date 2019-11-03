@@ -3,20 +3,39 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React from "react";
+import React, { useState } from "react";
 import { Form, Icon, Input, Button, Checkbox } from "antd";
+import axios from "axios";
 
 import { FormProps } from "../../types/types.6_35";
 
 const NormalLoginForm: React.FC<FormProps> = ({ form, history }: FormProps) => {
+  const [state, setState] = useState({ loading: false, error: false });
   const { getFieldDecorator } = form;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    setState(prev => ({ ...prev, loading: true }));
     e.preventDefault();
     form.validateFields((err: Error, values: any) => {
       if (!err) {
-        console.log("Received values of form: ", values);
+        axios({
+          url: `${process.env.REACT_APP_API_URL}api/authentication`,
+          data: {
+            email: values.email,
+            password: values.password
+          },
+          method: "post"
+        })
+          .then(res => {
+            localStorage.setItem("token", res.data.token);
+            history.push("/profile");
+          })
+          .catch(() => {
+            setState(prev => ({ ...prev, error: true }));
+          })
+          .finally(() => setState(prev => ({ ...prev, loading: false })));
       }
+      setState({ loading: false, error: false });
     });
   };
 
@@ -58,8 +77,13 @@ const NormalLoginForm: React.FC<FormProps> = ({ form, history }: FormProps) => {
         >
           Forgot password
         </a>
-        <Button type="primary" htmlType="submit" className="login-form-button">
-          Log in
+        <Button
+          type="primary"
+          htmlType="submit"
+          className="login-form-button"
+          loading={state.loading}
+        >
+          {state.error ? "Wrong credentials" : "Log in"}
         </Button>
         Or <a onClick={(): void => history.push("/register")}>register now!</a>
       </Form.Item>

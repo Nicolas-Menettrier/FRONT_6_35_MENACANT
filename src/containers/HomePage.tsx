@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React, { useEffect } from "react";
 import { Layout } from "antd";
 import PerfectScrollbar from "react-perfect-scrollbar";
+import { useQuery } from "@apollo/react-hooks";
+import { useHistory } from "react-router";
+
 import _ from "lodash";
 
 import Post from "../components/Post/Post";
@@ -11,38 +14,40 @@ import Container from "../components/Container/Container";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import AddPost from "../components/AddPost/AddPost";
 
+import { GET_HOME_POST } from "../queryGraph/queryGraph";
+
 const { Content } = Layout;
 
-const posts = [
-  {
-    date: new Date(),
-    likes: 35,
-    comments: 70,
-    contents: "Jui un test mdr",
-    author: "Nicolas Menettrier",
-    id: "1"
-  },
-  {
-    date: new Date(),
-    likes: 1,
-    comments: 2,
-    contents: "Jui un bide",
-    author: "Nicolas Menettrier",
-    id: "2"
-  }
-];
-
 const SiderDemo: React.FC = () => {
+  const { loading, error, data } = useQuery(GET_HOME_POST);
+  const history = useHistory();
+
+  useEffect(() => console.log(data));
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+  if (error) {
+    localStorage.removeItem("token");
+    history.push("/");
+    return <p>Error...</p>;
+  }
   return (
-    <Container>
+    <Container active="Home">
       <Header text="Home" />
-      <div className="main-layout">
+      <div className="main-layout" style={{ width: "100%" }}>
         <AddPost />
       </div>
       <Content className="content-view">
         <PerfectScrollbar>
-          {_.map(posts, (post: any, key) => (
-            <Post {...post} key={key} />
+          {_.map(data.user.posts, post => (
+            <Post
+              likes={post.likes.count}
+              comments={post.comments.length}
+              contents={post.message}
+              id={post.id}
+              author={post.user.username}
+              key={post.id}
+            />
           ))}
         </PerfectScrollbar>
       </Content>

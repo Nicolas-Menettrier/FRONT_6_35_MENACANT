@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ReactType } from "react";
+import { ReactType, ReactChild, ReactNode } from "react";
 import { RouteComponentProps } from "react-router";
 
 export interface PrivateRouteProps {
@@ -32,7 +33,6 @@ export interface PostProps {
   comments?: number;
   contents: string;
   author: string;
-  date: any;
   id: string;
   comment?: boolean;
   width?: boolean;
@@ -43,7 +43,6 @@ export interface ZoomViewProps {
   comments: number;
   contents: string;
   author: string;
-  date: any;
   id: string;
 }
 
@@ -63,4 +62,18 @@ export interface SiderPanProps {
   active: string;
 }
 
-export type SiderStates = "Home" | "Notifications" | "Profile";
+export interface ProfilePageProps {}
+
+export interface ProfileHeaderProps {
+  name: string;
+  description: string;
+}
+
+export interface ContainerProps {
+  children: ReactNode;
+  active: "Home" | "Notifications" | "Profile";
+}
+
+export interface SiderHomeProps {
+  active: "Home" | "Notifications" | "Profile";
+}

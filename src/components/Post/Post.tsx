@@ -1,36 +1,34 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Card, Avatar, Row, Col, Button, Typography } from "antd";
+import { useMutation } from "@apollo/react-hooks";
+
+import { Card, Avatar, Row, Col, Button, Typography, notification } from "antd";
 
 import AddCommentModal from "../AddCommentModal/AddCommentModal";
 
 import { PostProps } from "../../types/types.6_35";
+import { ADD_LIKES } from "../../queryGraph/queryGraph";
 
 const Post: React.FC<PostProps> = ({
   likes,
   comments,
   contents,
   author,
-  date,
   comment,
-  width,
   id
 }: PostProps) => {
+  const [addLike] = useMutation(ADD_LIKES);
   const history = useHistory();
   const [visible, setVisible] = useState(false);
 
   const handleClick = (): void => {
-    console.log("testos");
     history.push(`/post/${id}`);
   };
 
   return (
     <div onClick={handleClick} role="button" tabIndex={0}>
-      <Card
-        style={{ width: !width ? "600px" : "auto", height: "auto" }}
-        hoverable={!comment}
-      >
+      <Card style={{ width: "100%", height: "auto" }} hoverable={!comment}>
         <div style={{ display: "flex", flexDirection: "row" }}>
           <div style={{ width: "60px" }}>
             <Avatar
@@ -40,13 +38,13 @@ const Post: React.FC<PostProps> = ({
           </div>
           <div
             style={{
-              width: "700px",
+              width: "100%",
               paddingLeft: "8px",
               paddingRight: "60px"
             }}
           >
             <Typography.Text style={{ fontSize: "15px", fontWeight: "bold" }}>
-              {`@${author} - ${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`}
+              {`@${author}`}
             </Typography.Text>
             <Row>
               <Col style={{ paddingTop: "8px" }}>
@@ -88,6 +86,14 @@ const Post: React.FC<PostProps> = ({
                     shape="circle"
                     icon="heart"
                     className="button-heart"
+                    onClick={(e): void => {
+                      e.stopPropagation();
+                      addLike({ variables: { postId: id } });
+                      notification.success({
+                        message: "Hermès Success",
+                        description: "Your like is set."
+                      });
+                    }}
                   />
                   {` ${likes}`}
                 </div>

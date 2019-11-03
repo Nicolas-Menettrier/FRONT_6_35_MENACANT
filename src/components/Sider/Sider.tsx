@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Tabs } from "antd";
 
+import { useHistory } from "react-router";
 import SiderPan from "./SiderPan";
+import { SiderHomeProps } from "../../types/types.6_35";
 
-const SiderHome: React.FC = () => {
-  const [active, setActive] = useState("Home");
+const SiderHome: React.FC<SiderHomeProps> = ({ active }: SiderHomeProps) => {
+  const [key, setActive] = useState(active);
+  const history = useHistory();
 
   return (
     <div
@@ -18,20 +21,30 @@ const SiderHome: React.FC = () => {
       }}
     >
       <Tabs
-        defaultActiveKey={active}
+        defaultActiveKey={key}
         tabPosition="left"
-        onChange={(key): void => setActive(key)}
+        onChange={(e): void => {
+          setActive(e as "Home" | "Notifications" | "Profile");
+        }}
+        onTabClick={(tab: any): void => {
+          let path = String(tab).toLowerCase();
+
+          if (path === "home") {
+            path = "homePage";
+          }
+          history.push(`/${path}`);
+        }}
       >
         <Tabs.TabPane
-          tab={<SiderPan icon="home" text="Home" active={active} />}
+          tab={<SiderPan icon="home" text="Home" active={key} />}
           key="Home"
         />
         <Tabs.TabPane
-          tab={<SiderPan icon="bell" text="Notifications" active={active} />}
+          tab={<SiderPan icon="bell" text="Notifications" active={key} />}
           key="Notifications"
         />
         <Tabs.TabPane
-          tab={<SiderPan icon="user" text="Profile" active={active} />}
+          tab={<SiderPan icon="user" text="Profile" active={key} />}
           key="Profile"
         />
       </Tabs>

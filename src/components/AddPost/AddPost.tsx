@@ -1,11 +1,17 @@
-import React from "react";
-import { Card, Avatar, Row, Col, Button, Input } from "antd";
+import React, { useState } from "react";
+import { Card, Avatar, Row, Col, Button, Input, notification } from "antd";
+import { useMutation } from "@apollo/react-hooks";
+
+import { ADD_POST } from "../../queryGraph/queryGraph";
 
 const { TextArea } = Input;
 
 const AddPost: React.FC = () => {
+  const [addTweet] = useMutation(ADD_POST);
+  const [tweet, setTweet] = useState("");
+
   return (
-    <Card style={{ width: "600px", height: "auto", borderBottom: "10px" }}>
+    <Card style={{ width: "100%", height: "auto", borderBottom: "10px" }}>
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div style={{ width: "60px" }}>
           <Avatar
@@ -24,6 +30,8 @@ const AddPost: React.FC = () => {
                 }}
                 placeholder="What's up ?"
                 autoSize
+                value={tweet}
+                onChange={(e): void => setTweet(e.target.value)}
               />
             </Col>
           </Row>
@@ -36,7 +44,19 @@ const AddPost: React.FC = () => {
               paddingTop: "8px"
             }}
           >
-            <Button type="primary">Send</Button>
+            <Button
+              onClick={(): void => {
+                addTweet({ variables: { message: tweet } });
+                setTweet("");
+                notification.success({
+                  message: "Hermès Success",
+                  description: "Your post has been posted successfully."
+                });
+              }}
+              type="primary"
+            >
+              Send
+            </Button>
           </div>
         </div>
       </div>

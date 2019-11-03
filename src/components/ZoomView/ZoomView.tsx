@@ -7,7 +7,6 @@ import { ZoomViewProps } from "../../types/types.6_35";
 
 const ZoomView: React.FC<ZoomViewProps> = ({
   author,
-  date,
   contents,
   comments,
   likes,
@@ -16,7 +15,7 @@ const ZoomView: React.FC<ZoomViewProps> = ({
   const [visible, setVisible] = useState(false);
 
   return (
-    <Card style={{ width: "600px", height: "auto" }}>
+    <Card style={{ width: "100%", height: "auto" }}>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <div style={{ display: "flex", flexDirection: "row" }}>
           <div style={{ width: "50px" }}>
@@ -25,18 +24,18 @@ const ZoomView: React.FC<ZoomViewProps> = ({
               className="profil-icon"
             />
           </div>
-          <div style={{ display: "flex", flexDirection: "column" }}>
+          <div
+            style={{ display: "flex", flexDirection: "column", paddingLeft: 8 }}
+          >
             <Typography.Text style={{ fontSize: "15px", fontWeight: "bold" }}>
               {`@${author}`}
             </Typography.Text>
-            <Typography.Text>{`${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`}</Typography.Text>
           </div>
         </div>
         <div
           style={{
-            width: "600px",
-            paddingLeft: "8px",
-            paddingRight: "60px"
+            width: "100%",
+            paddingLeft: "8px"
           }}
         >
           <Row
