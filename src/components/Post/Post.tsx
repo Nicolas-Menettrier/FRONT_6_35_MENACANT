@@ -8,7 +8,7 @@ import { Card, Avatar, Row, Col, Button, Typography, notification } from "antd";
 import AddCommentModal from "../AddCommentModal/AddCommentModal";
 
 import { PostProps } from "../../types/types.6_35";
-import { ADD_LIKES } from "../../queryGraph/queryGraph";
+import { ADD_LIKES, RETWEET } from "../../queryGraph/queryGraph";
 
 const Post: React.FC<PostProps> = ({
   likes,
@@ -16,9 +16,11 @@ const Post: React.FC<PostProps> = ({
   contents,
   author,
   comment,
-  id
+  id,
+  date
 }: PostProps) => {
   const [addLike] = useMutation(ADD_LIKES);
+  const [retweet] = useMutation(RETWEET);
   const history = useHistory();
   const [visible, setVisible] = useState(false);
 
@@ -44,7 +46,7 @@ const Post: React.FC<PostProps> = ({
             }}
           >
             <Typography.Text style={{ fontSize: "15px", fontWeight: "bold" }}>
-              {`@${author}`}
+              {`@${author} - ${date}`}
             </Typography.Text>
             <Row>
               <Col style={{ paddingTop: "8px" }}>
@@ -80,6 +82,14 @@ const Post: React.FC<PostProps> = ({
                   shape="circle"
                   icon="retweet"
                   className="button-retweet"
+                  onClick={(e): void => {
+                    e.stopPropagation();
+                    retweet({ variables: { postId: id } });
+                    notification.success({
+                      message: "Hermès Success",
+                      description: "Retweet success!"
+                    });
+                  }}
                 />
                 <div>
                   <Button

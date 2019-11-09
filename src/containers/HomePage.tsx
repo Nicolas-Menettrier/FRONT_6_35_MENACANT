@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect } from "react";
+import React from "react";
 import { Layout } from "antd";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { useQuery } from "@apollo/react-hooks";
-import { useHistory } from "react-router";
 
 import _ from "lodash";
 
@@ -20,15 +19,12 @@ const { Content } = Layout;
 
 const SiderDemo: React.FC = () => {
   const { loading, error, data } = useQuery(GET_HOME_POST);
-  const history = useHistory();
 
-  useEffect(() => console.log(data));
   if (loading) {
     return <p>Loading...</p>;
   }
   if (error) {
-    localStorage.removeItem("token");
-    history.push("/");
+    console.log(error);
     return <p>Error...</p>;
   }
   return (
@@ -39,16 +35,25 @@ const SiderDemo: React.FC = () => {
       </div>
       <Content className="content-view">
         <PerfectScrollbar>
-          {_.map(data.user.posts, post => (
-            <Post
-              likes={post.likes.count}
-              comments={post.comments.length}
-              contents={post.message}
-              id={post.id}
-              author={post.user.username}
-              key={post.id}
-            />
-          ))}
+          {_.map(
+            data.user.posts.sort((a: any, b: any) => {
+              if (a.id > b.id) {
+                return -1;
+              }
+              return 0;
+            }),
+            post => (
+              <Post
+                likes={post.likes.count}
+                comments={post.comments.length}
+                contents={post.message}
+                id={post.id}
+                author={post.user.username}
+                key={post.id}
+                date={post.date}
+              />
+            )
+          )}
         </PerfectScrollbar>
       </Content>
     </Container>

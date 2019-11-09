@@ -41,16 +41,25 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
       />
       <Content className="content-view">
         <PerfectScrollbar>
-          {_.map(data.user.posts, (post: any) => (
-            <Post
-              likes={post.likes.count}
-              comments={post.comments.length}
-              contents={post.message}
-              id={post.id}
-              author={post.user.username}
-              key={post.id}
-            />
-          ))}
+          {_.map(
+            data.user.posts.sort((a: any, b: any) => {
+              if (a.id > b.id) {
+                return -1;
+              }
+              return 0;
+            }),
+            (post: any) => (
+              <Post
+                likes={post.likes.count}
+                comments={post.comments.length}
+                contents={post.message}
+                id={post.id}
+                author={post.user.username}
+                key={post.id}
+                date={post.date}
+              />
+            )
+          )}
         </PerfectScrollbar>
       </Content>
     </Container>

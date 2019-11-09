@@ -2,12 +2,29 @@ import React, { useState } from "react";
 import { Card, Avatar, Row, Col, Button, Input, notification } from "antd";
 import { useMutation } from "@apollo/react-hooks";
 
-import { ADD_POST } from "../../queryGraph/queryGraph";
+import { ADD_POST, GET_HOME_POST } from "../../queryGraph/queryGraph";
 
 const { TextArea } = Input;
 
 const AddPost: React.FC = () => {
-  const [addTweet] = useMutation(ADD_POST);
+  const [addTweet] = useMutation(ADD_POST, {
+    update(cache, { data }) {
+      const post: any = cache.readQuery({
+        query: GET_HOME_POST
+      });
+
+      cache.writeQuery({
+        query: GET_HOME_POST,
+        data: {
+          ...post,
+          user: {
+            ...post.user,
+            posts: [...post.user.posts, data.post]
+          }
+        }
+      });
+    }
+  });
   const [tweet, setTweet] = useState("");
 
   return (

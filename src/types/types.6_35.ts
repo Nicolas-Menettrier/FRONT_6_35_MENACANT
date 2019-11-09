@@ -36,6 +36,7 @@ export interface PostProps {
   id: string;
   comment?: boolean;
   width?: boolean;
+  date: any;
 }
 
 export interface ZoomViewProps {

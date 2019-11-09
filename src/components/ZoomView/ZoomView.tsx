@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Card, Avatar, Typography, Row, Col, Button } from "antd";
+import { Card, Avatar, Typography, Row, Col, Button, notification } from "antd";
 
+import { useMutation } from "@apollo/react-hooks";
 import AddCommentModal from "../AddCommentModal/AddCommentModal";
 
 import { ZoomViewProps } from "../../types/types.6_35";
+import { ADD_LIKES, RETWEET } from "../../queryGraph/queryGraph";
 
 const ZoomView: React.FC<ZoomViewProps> = ({
   author,
@@ -13,6 +15,8 @@ const ZoomView: React.FC<ZoomViewProps> = ({
   id
 }: ZoomViewProps) => {
   const [visible, setVisible] = useState(false);
+  const [addLike] = useMutation(ADD_LIKES);
+  const [retweet] = useMutation(RETWEET);
 
   return (
     <Card style={{ width: "100%", height: "auto" }}>
@@ -71,9 +75,33 @@ const ZoomView: React.FC<ZoomViewProps> = ({
               />
               {` ${comments}`}
             </div>
-            <Button shape="circle" icon="retweet" className="button-retweet" />
+            <Button
+              shape="circle"
+              icon="retweet"
+              className="button-retweet"
+              onClick={(e): void => {
+                e.stopPropagation();
+                retweet({ variables: { postId: id } });
+                notification.success({
+                  message: "Hermès Success",
+                  description: "Retweet success!"
+                });
+              }}
+            />
             <div>
-              <Button shape="circle" icon="heart" className="button-heart" />
+              <Button
+                shape="circle"
+                icon="heart"
+                className="button-heart"
+                onClick={(e): void => {
+                  e.stopPropagation();
+                  addLike({ variables: { postId: id } });
+                  notification.success({
+                    message: "Hermès Success",
+                    description: "Your like is set."
+                  });
+                }}
+              />
               {` ${likes}`}
             </div>
             <Button shape="circle" icon="share-alt" />

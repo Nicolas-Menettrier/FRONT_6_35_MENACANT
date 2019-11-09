@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 /* eslint-disable radix */
-import React, { useEffect } from "react";
+import React from "react";
 import { useParams, useHistory } from "react-router";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import _ from "lodash";
@@ -21,7 +21,7 @@ const PostView: React.FC = () => {
     variables: { id: intId }
   });
 
-  useEffect(() => console.log(data));
+  // useEffect(() => console.log(data));
 
   if (loading) {
     return <p>Loading...</p>;
@@ -43,16 +43,26 @@ const PostView: React.FC = () => {
           contents={data.post.message}
           id={data.post.id}
         />
-        {_.map(data.post.comments, el => (
-          <Post
-            key={el.id}
-            author={el.user.username}
-            contents={el.message}
-            id={el.id}
-            comment
-            width
-          />
-        ))}
+        {_.map(
+          data.post.comments.sort((a: any, b: any) => {
+            if (a.id > b.id) {
+              return -1;
+            }
+            return 0;
+          }),
+          el => (
+            <Post
+              key={el.id}
+              author={el.user.username}
+              contents={el.message}
+              id={el.id}
+              date={el.date}
+              likes={el.likes.count}
+              comments={el.comments.length}
+              width
+            />
+          )
+        )}
       </PerfectScrollbar>
     </Container>
   );

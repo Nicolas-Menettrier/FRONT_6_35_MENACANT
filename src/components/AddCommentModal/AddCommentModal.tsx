@@ -21,16 +21,20 @@ const AddCommentModal: React.FC<AddCommentModalProps> = ({
   const { loading, error, data } = useQuery(GET_POST, { variables: { id } });
   const [addComment] = useMutation(ADD_COMMENTS, {
     update(cache, { data }) {
-      const post = cache.readQuery({
+      const post: any = cache.readQuery({
         query: GET_POST,
         variables: { id }
       });
 
-      console.log(post);
       cache.writeQuery({
         query: GET_POST,
-        // @ts-ignore
-        data: { comments: post.post.comments.concat(data) }
+        variables: { id },
+        data: {
+          post: {
+            ...post.post,
+            comments: [...post.post.comments, data.comment]
+          }
+        }
       });
     }
   });
@@ -81,6 +85,7 @@ const AddCommentModal: React.FC<AddCommentModalProps> = ({
           contents={data.post.message}
           id={data.post.id}
           author={data.post.user.username}
+          date={data.post.date}
           comment
           width
         />
